@@ -23,3 +23,23 @@ export const POST = async (endpoint: string, body: any) => {
     return { error };
   }
 };
+
+export const PATCH = async (endpoint: string, body: any) => {
+  try {
+    const req = await fetch(`${URL}${endpoint}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+
+    const res = await req.json();
+
+    if (!req.ok) return { error: res.message };
+
+    return res;
+  } catch (error) {
+    return { error };
+  }
+};

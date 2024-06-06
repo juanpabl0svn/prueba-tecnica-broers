@@ -56,8 +56,6 @@ export default function Dashboard() {
     }
 
     toast.success("User created successfully");
-
-
   };
 
   return (

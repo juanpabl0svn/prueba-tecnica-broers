@@ -71,7 +71,14 @@ export class UserService {
     }
   }
 
-  update(id_user: number, updateUserDto: UpdateUserDto) {
+  async update(id_user: number, updateUserDto: UpdateUserDto) {
+
+    const lastData = await this.userRepository.findOne({ where: { id_user } })
+
+    if (updateUserDto.password !== lastData.password) updateUserDto.password = bcrypt.hashSync(updateUserDto.password, 10);
+
+
+    updateUserDto.password = bcrypt.hashSync(updateUserDto.password, 10);
     return this.userRepository.update({ id_user }, updateUserDto);
   }
 
