@@ -4,33 +4,28 @@ import EyeOpen from "../svg/eye-open";
 
 import { handleSpaces } from "../utils/functions";
 import { useNavigate } from "react-router-dom";
+import { POST } from "../utils/config";
 
 export default function Dashboard() {
   const [showPassword, setShowPassword] = useState(false);
 
   const router = useNavigate();
 
-  //   useEffect(() => {
-  //     const user = localStorage.getItem("user-crud");
+  useEffect(() => {
+    const user = localStorage.getItem("user-crud");
 
-  //     if (!user) {
-  //       router("/")
-  //     }
 
-  //     fetch("http://localhost:3001/dashboard", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({ user }),
-  //     })
-  //       .then((res) => res.json())
-  //       .then((valid) => {
-  //         if (!valid.active) {
-  //           router("/");
-  //         }
-  //       });
-  //   }, []);
+    if (!user) {
+      router("/");
+    }
+
+    POST("/user/verifiy", { token: user })
+      .then((res) => {
+        console.log(res)
+
+      })
+      .catch(() => {});
+  }, []);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -39,7 +34,7 @@ export default function Dashboard() {
   return (
     <>
       <h1 className="absolute top-28 left-1/2 -translate-x-1/2 text-4xl text-white font-light">
-        Dashboard
+        Create
       </h1>
 
       <form onSubmit={handleSubmit}>

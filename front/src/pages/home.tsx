@@ -5,21 +5,20 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 import { handleSpaces } from "../utils/functions";
+import { POST } from "../utils/config";
 
 export default function Home() {
   const [showPassword, setShowPassword] = useState(false);
 
   const router = useNavigate();
 
-
-  useEffect(()=> {
+  useEffect(() => {
     const user = localStorage.getItem("user-crud");
 
     if (user) {
-      router("/dashboard");
+      router("/create");
     }
-  
-  })
+  });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -28,28 +27,27 @@ export default function Home() {
 
     const form = e.currentTarget;
 
-    const { username, password } = Object.fromEntries(new FormData(form));
+    const { email, password } = Object.fromEntries(new FormData(form));
 
-    if (!(username as string).trim() || !(password as string).trim()) {
+    if (!(email as string).trim() || !(password as string).trim()) {
       toast.error("Por favor, rellene todos los campos sin espacios", {
         position: "top-center",
       });
       return;
     }
 
-    try {
-      const req = await fetch("http://localhost:3001/login");
+    const user = await POST("/user/auth", { email, password });
 
-      if (!req.ok) {
-        return toast.error("Usuario o contraseña incorrectos");
-      }
-
-      toast.success("Inicio de sesión exitoso");
-    } catch (error) {
-      return toast.error("Error al iniciar sesión");
+    console.log(user);
+    if (user?.error) {
+      return toast.error("Usuario o contraseña incorrectos");
     }
 
-    router("/dashboard");
+    localStorage.setItem("user-crud", user.token);
+
+    toast.success("Inicio de sesión exitoso");
+
+    router("/create");
   };
 
   return (
@@ -63,12 +61,12 @@ export default function Home() {
         <div className="special-input">
           <input
             type="text"
-            id="username"
-            name="username"
+            id="email"
+            name="email"
             onChange={handleSpaces}
             required
           />
-          <label htmlFor="username">Username</label>
+          <label htmlFor="email">Email</label>
         </div>
 
         <div className="special-input">

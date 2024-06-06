@@ -2,8 +2,9 @@ import "./index.css";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/home";
-import Dashboard from "./pages/dashboard";
+import Dashboard from "./pages/create";
 import Layout from "./components/Layout";
+import Edit from "./pages/edit";
 
 const router = createBrowserRouter([
   {
@@ -15,8 +16,12 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/dashboard",
+        path: "/create",
         element: <Dashboard />,
+      },
+      {
+        path: "/edit",
+        element: <Edit />,
       },
     ],
   },
