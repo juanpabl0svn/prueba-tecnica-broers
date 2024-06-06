@@ -17,6 +17,10 @@ export default function Edit() {
 
   const [editUser, setEditUser] = useState<IUSER | any>(null);
 
+  const handleEdit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  };
+
   useEffect(() => {
     clearTimeout(timer);
 
@@ -36,7 +40,7 @@ export default function Edit() {
     <>
       {editUser && (
         <Modal closeModal={() => setEditUser(null)}>
-          <form>
+          <form onSubmit={handleEdit}>
             <input
               type="text"
               className="rounded-md border border-black p-2"
@@ -64,6 +68,31 @@ export default function Edit() {
                 setEditUser({ ...editUser, password: e.target.value })
               }
             />
+            <div className="flex gap-5 justify-center">
+              <div>
+                <input
+                  type="radio"
+                  name="active"
+                  value="true"
+                  id="true"
+                  checked={editUser.active}
+                  onChange={() => setEditUser({ ...editUser, active: true })}
+                />
+                <label htmlFor="active">Activo</label>
+              </div>
+              <div>
+                <input
+                  type="radio"
+                  name="active"
+                  value="false"
+                  id="false"
+                  checked={!editUser.active}
+                  onChange={() => setEditUser({ ...editUser, active: false })}
+                />
+                <label htmlFor="false">Inactivo</label>
+              </div>
+            </div>
+
             <button type="button">Update</button>
           </form>
         </Modal>

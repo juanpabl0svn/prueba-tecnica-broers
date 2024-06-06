@@ -14,15 +14,13 @@ export default function Dashboard() {
   useEffect(() => {
     const user = localStorage.getItem("user-crud");
 
-
     if (!user) {
       router("/");
     }
 
     POST("/user/verifiy", { token: user })
       .then((res) => {
-        console.log(res)
-
+        console.log(res);
       })
       .catch(() => {});
   }, []);
@@ -70,6 +68,16 @@ export default function Dashboard() {
           >
             {showPassword ? <EyeClose /> : <EyeOpen />}
           </span>
+        </div>
+        <div className="flex justify-center gap-5">
+          <div>
+            <input type="radio" name="active" value="true" id="true" checked />
+            <label htmlFor="active">Activo</label>
+          </div>
+          <div>
+            <input type="radio" name="active" value="false" id="false" />
+            <label htmlFor="false">Inactivo</label>
+          </div>
         </div>
 
         <button className="bg-blue-400  self-center rounded-md px-6 py-1 text-blue-200 hover:text-white transition-all duration-200 ease-in-out">
