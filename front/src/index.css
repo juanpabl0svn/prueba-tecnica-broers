@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: linear-gradient(90deg, #1e3a8a 0%, #1e3a8a 50%, #1e3a8a 100%);
+}
+
+main {
+  background: var(--background);
+  min-height: 100dvh;
+}
+
+form {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  height: 300px;
+  text-align: center;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.special-input {
+  position: relative;
+  width: 100%;
+  display: flex;
+
+  & > input {
+    border: 1px solid rgb(71, 66, 66);
+    border-radius: 8px;
+    width: 100%;
+    padding: 5px 8px;
+  }
+
+  & > label {
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: white;
+    transition: all 200ms ease-in-out;
+    padding: 0 5px;
+  }
+
+  & > input:is(:focus, :valid) + label {
+    top: 0;
+    font-size: 12px;
+  }
+}
