@@ -17,8 +17,6 @@ export class UserController {
     return this.userService.findAll();
   }
 
-
-
   @Post('verify')
   verify(@Body() body: { token: string }) {
     console.log('entra')
@@ -30,7 +28,7 @@ export class UserController {
     console.log('entra')
     return this.userService.findOne(body.email, body.password);
   }
-  
+
   @Get(':email')
   find(@Param('email') email: string) {
     return this.userService.find(email);

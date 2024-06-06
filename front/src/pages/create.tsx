@@ -6,6 +6,8 @@ import { handleSpaces } from "../utils/functions";
 import { useNavigate } from "react-router-dom";
 import { POST } from "../utils/config";
 
+import toast from "react-hot-toast";
+
 export default function Dashboard() {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -25,8 +27,29 @@ export default function Dashboard() {
       .catch(() => {});
   }, []);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const form = e.currentTarget;
+
+    const { fullName, email, password, active } = Object.fromEntries(
+      new FormData(form)
+    );
+
+    if (
+      !(fullName as string).trim() ||
+      !(email as string).trim() ||
+      !(password as string).trim()
+    ) {
+      return toast.error("Fill all the fields without spaces");
+    }
+
+    await POST("/user", {
+      fullName,
+      email,
+      password,
+      active: active === "true" ? true : false,
+    });
   };
 
   return (
