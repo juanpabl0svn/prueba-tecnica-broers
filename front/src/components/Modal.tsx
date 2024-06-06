@@ -8,7 +8,7 @@ export default function Modal({
   return (
     <aside
       onClick={closeModal}
-      className="fixed top-0 left-0 w-full h-dvh bg-[rgba(0,0,0,.6)] grid place-content-center"
+      className="fixed top-0 left-0 w-full h-dvh bg-[rgba(0,0,0,.6)] grid place-content-center z-10"
     >
       <section onClick={(e) => e.stopPropagation()}>{children}</section>
     </aside>

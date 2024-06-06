@@ -59,10 +59,14 @@ export class UserService {
 
   verify(token: string) {
     try {
-      const id_user = jwt.verify(token, 'secret')
-      if (!id_user) throw new NotFoundException('Token invalid')
+      const isValid = jwt.verify(token, 'secret')
+      if (!isValid) throw new NotFoundException('Token invalid')
 
-      const user = this.userRepository.findOne({ where: { id_user: (+id_user) } })
+
+      const { id_user } = isValid as { id_user: number }
+
+
+      const user = this.userRepository.findOne({ where: { id_user } })
 
       return user
 

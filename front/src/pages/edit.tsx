@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import Modal from "../components/Modal";
 
 import { useNavigate } from "react-router-dom";
-import { DELETE, PATCH } from "../utils/functions";
+import { DELETE, PATCH, POST } from "../utils/functions";
 
 let timer = setTimeout(() => {});
 
@@ -23,6 +23,23 @@ export default function Edit() {
 
   const router = useNavigate();
 
+  useEffect(() => {
+    const user = localStorage.getItem("user-crud");
+
+    if (!user) {
+      router("/");
+    }
+
+    POST("/user/verify", { token: user })
+      .then((res) => {
+        if (res.error) {
+          localStorage.removeItem("user-crud");
+          return router("/");
+        }
+      })
+      .catch(() => {});
+  }, []);
+
   const handleEdit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -31,8 +48,6 @@ export default function Edit() {
     const { fullName, email, password, active } = Object.fromEntries(
       new FormData(form)
     );
-
-    console.log(fullName, email, password, active);
 
     if (
       !(fullName as string).trim() ||
@@ -53,7 +68,25 @@ export default function Edit() {
       return toast.error(isUpdated.error[0]);
     }
 
+    const newUsers = users.map((user) => {
+      if (user.id_user === editUser.id_user) {
+        return {
+          ...user,
+          fullName: fullName as string,
+          email: email as string,
+          password: password as string,
+          active: active === "true" ? true : false,
+        };
+      }
+
+      return user;
+    });
+
+    setUsers(newUsers);
+
     toast.success("User updated successfully");
+
+    setEditUser(null);
   };
 
   const handleDelete = async () => {
@@ -63,7 +96,13 @@ export default function Edit() {
       return toast.error(isDeleted.error[0]);
     }
 
+    const newUsers = users.filter((user) => user.id_user !== editUser.id_user);
+
+    setUsers(newUsers);
+
     toast.success("User deleted successfully");
+
+    setEditUser(null);
   };
 
   useEffect(() => {
@@ -85,7 +124,13 @@ export default function Edit() {
     <>
       {editUser && (
         <Modal closeModal={() => setEditUser(null)}>
-          <form onSubmit={handleEdit}>
+          <form
+            onSubmit={handleEdit}
+            className="w-[400px] h-[500px] items-center"
+          >
+            <h2 className="text-2xl font-bold font-serif mb-8">
+              Edit or Delete
+            </h2>
             <input
               type="text"
               className="rounded-md border border-black p-2"
@@ -141,13 +186,28 @@ export default function Edit() {
               </div>
             </div>
 
-            <button>Update</button>
-            <button type="button" onClick={handleDelete}>
+            <button className="bg-blue-300 w-32 rounded-md py-2 text-blue-100 hover:text-blue-500 transition-all duration-200 ease-in-out">
+              Update
+            </button>
+            <button
+              type="button"
+              className="transition-all duration-200 underline  ease-in-out w-32 rounded-md py-2 hover:[text-decoration:none;]  hover:bg-red-500 hover:text-white"
+              onClick={handleDelete}
+            >
               Delete
             </button>
           </form>
         </Modal>
       )}
+      <button
+        onClick={() => {
+          localStorage.removeItem("user-crud");
+          router("/");
+        }}
+        className="bg-gray-800 absolute right-5 top-5 rounded-md py-1 px-3 text-white opacity-80 hover:opacity-100"
+      >
+        Log Out
+      </button>
       <h1 className="absolute top-28 left-1/2 -translate-x-1/2 text-4xl text-white font-light">
         Edit
       </h1>
@@ -179,6 +239,10 @@ export default function Edit() {
               </div>
             );
           })}
+
+          {!users.length && (
+            <p className="text-center text-gray-400 mt-20">No users found</p>
+          )}
         </section>
       </form>
     </>

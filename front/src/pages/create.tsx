@@ -20,9 +20,12 @@ export default function Dashboard() {
       router("/");
     }
 
-    POST("/user/verifiy", { token: user })
+    POST("/user/verify", { token: user })
       .then((res) => {
-        console.log(res);
+        if (res.error) {
+          localStorage.removeItem("user-crud");
+          return router("/");
+        }
       })
       .catch(() => {});
   }, []);
@@ -56,10 +59,21 @@ export default function Dashboard() {
     }
 
     toast.success("User created successfully");
+
+    (e.target as HTMLFormElement).reset();
   };
 
   return (
     <>
+      <button
+        onClick={() => {
+          localStorage.removeItem("user-crud");
+          router("/");
+        }}
+        className="bg-gray-800 absolute right-5 top-5 rounded-md py-1 px-3 text-white opacity-80 hover:opacity-100"
+      >
+        Log Out
+      </button>
       <h1 className="absolute top-28 left-1/2 -translate-x-1/2 text-4xl text-white font-light ">
         Create
       </h1>

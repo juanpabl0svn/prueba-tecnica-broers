@@ -12,16 +12,15 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
+  @Post('verify')
+  verify(@Body() body: { token: string }) {
+    return this.userService.verify(body.token);
+  }
   @Get()
   findAll() {
     return this.userService.findAll();
   }
 
-  @Post('verify')
-  verify(@Body() body: { token: string }) {
-    console.log('entra')
-    return this.userService.verify(body.token);
-  }
 
   @Post('auth')
   findOne(@Body() body: { email: string, password: string }) {

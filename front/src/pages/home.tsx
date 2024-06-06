@@ -57,7 +57,7 @@ export default function Home() {
       </h1>
 
       <form onSubmit={handleSubmit}>
-        <h2 className="text-2xl mb-5">Login</h2>
+        <h2 className="text-2xl mb-10 mt-10">Login</h2>
         <div className="special-input">
           <input
             type="text"
