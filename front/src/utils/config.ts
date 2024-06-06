@@ -13,11 +13,11 @@ export const POST = async (endpoint: string, body: any) => {
 
         const res = await req.json()
 
-        if (!req.ok) throw new Error(res.error)
+        if (!req.ok) return { error: res.message }
 
         return res
 
     } catch (error) {
-        return { error }
+        return error
     }
 }

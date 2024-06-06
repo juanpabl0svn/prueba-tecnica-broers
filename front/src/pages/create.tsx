@@ -44,12 +44,20 @@ export default function Dashboard() {
       return toast.error("Fill all the fields without spaces");
     }
 
-    await POST("/user", {
+    const isCreated = await POST("/user", {
       fullName,
       email,
       password,
       active: active === "true" ? true : false,
     });
+
+    if (isCreated.error) {
+      return toast.error(isCreated.error[0]);
+    }
+
+    toast.success("User created successfully");
+
+
   };
 
   return (
