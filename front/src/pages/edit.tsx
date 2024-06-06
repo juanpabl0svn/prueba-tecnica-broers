@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import Modal from "../components/Modal";
 
 import { useNavigate } from "react-router-dom";
-import { PATCH } from "../utils/functions";
+import { DELETE, PATCH } from "../utils/functions";
 
 let timer = setTimeout(() => {});
 
@@ -54,6 +54,16 @@ export default function Edit() {
     }
 
     toast.success("User updated successfully");
+  };
+
+  const handleDelete = async () => {
+    const isDeleted = await DELETE(`/user/${editUser.id_user}`);
+
+    if (isDeleted.error) {
+      return toast.error(isDeleted.error[0]);
+    }
+
+    toast.success("User deleted successfully");
   };
 
   useEffect(() => {
@@ -132,6 +142,9 @@ export default function Edit() {
             </div>
 
             <button>Update</button>
+            <button type="button" onClick={handleDelete}>
+              Delete
+            </button>
           </form>
         </Modal>
       )}

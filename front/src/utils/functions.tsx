@@ -43,3 +43,22 @@ export const PATCH = async (endpoint: string, body: any) => {
     return { error };
   }
 };
+
+export const DELETE = async (endpoint: string) => {
+  try {
+    const req = await fetch(`${URL}${endpoint}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const res = await req.json();
+
+    if (!req.ok) return { error: res.message };
+
+    return res;
+  } catch (error) {
+    return { error };
+  }
+};
