@@ -31,9 +31,15 @@ export default function Dashboard() {
 
   return (
     <>
-      <h1 className="absolute top-28 left-1/2 -translate-x-1/2 text-4xl text-white font-light">
+      <h1 className="absolute top-28 left-1/2 -translate-x-1/2 text-4xl text-white font-light ">
         Create
       </h1>
+      <button
+        className="absolute top-28 left-[60%] px-5 rounded-lg -translate-x-1/2 text-xl text-black font-light bg-white"
+        onClick={() => router("/edit")}
+      >
+        Edit
+      </button>
 
       <form onSubmit={handleSubmit}>
         <h2 className="text-2xl mb-5">Create</h2>

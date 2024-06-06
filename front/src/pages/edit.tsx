@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Modal from "../components/Modal";
 
+import { useNavigate } from "react-router-dom";
+
 let timer = setTimeout(() => {});
 
 interface IUSER {
@@ -16,6 +18,8 @@ export default function Edit() {
   const [filter, setfilter] = useState("");
 
   const [editUser, setEditUser] = useState<IUSER | any>(null);
+
+  const router = useNavigate();
 
   const handleEdit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -100,6 +104,12 @@ export default function Edit() {
       <h1 className="absolute top-28 left-1/2 -translate-x-1/2 text-4xl text-white font-light">
         Edit
       </h1>
+      <button
+        className="absolute top-28 left-[60%] px-5 rounded-lg -translate-x-1/2 text-xl text-black font-light bg-white"
+        onClick={() => router("/create")}
+      >
+        Create
+      </button>
       <form>
         <input
           type="text"
