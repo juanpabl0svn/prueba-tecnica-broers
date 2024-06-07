@@ -8,7 +8,7 @@ import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [
     UserModule,
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({isGlobal: true}),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.APP_DB_HOST,
@@ -18,7 +18,6 @@ import { ConfigModule } from '@nestjs/config';
       password: process.env.APP_DB_PASSWORD,
       synchronize: false,
       autoLoadEntities: true,
-      migrations: [__dirname + '/migrations/*{.ts,.js}'],
     }),
   ],
   controllers: [AppController],

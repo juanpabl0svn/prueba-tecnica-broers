@@ -19,15 +19,15 @@ export class UserService {
   async create(createUserDto: CreateUserDto) {
     createUserDto.password = await bcrypt.hash(createUserDto.password, 10);
 
-    try {
+    const alreadyExists = await this.userRepository.findOne({ where: { email: createUserDto.email } })
 
-      const user = this.userRepository.create(createUserDto);
-      this.userRepository.save(user);
+    if (alreadyExists) return { error: 'User already exists' }
 
-      return jwt.sign({ id_user: user.id_user }, 'secret', { expiresIn: '1h' })
-    } catch (error) {
-      return 'User already exists'
-    }
+    const user = this.userRepository.create(createUserDto);
+    this.userRepository.save(user);
+
+    return jwt.sign({ id_user: user.id_user }, 'secret', { expiresIn: '1h' })
+
   }
 
   findAll() {
