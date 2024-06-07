@@ -7,7 +7,6 @@ import { IUSER } from "../utils/types";
 
 let timer = setTimeout(() => {});
 
-
 export default function Edit() {
   const [users, setUsers] = useState<Array<IUSER>>([]);
 
@@ -21,7 +20,7 @@ export default function Edit() {
     if (!filter) return setUsers([]);
 
     timer = setTimeout(() => {
-      fetch(`http://localhost:3000/user/${filter}`)
+      fetch(`http://localhost:3000/user/${filter.toLowerCase()}`)
         .then((res) => res.json())
         .then((data) => setUsers(data))
         .catch(() => {

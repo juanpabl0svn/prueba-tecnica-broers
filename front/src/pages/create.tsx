@@ -16,7 +16,7 @@ export default function Create() {
 
     const form = e.currentTarget;
 
-    const { fullName, email, password, active } = Object.fromEntries(
+    let { fullName, email, password, active } = Object.fromEntries(
       new FormData(form)
     );
 
@@ -28,6 +28,10 @@ export default function Create() {
       return toast.error("Fill all the fields without spaces");
     }
 
+    email = (email as string).toLowerCase();
+
+    fullName = (fullName as string).toLowerCase();
+
     const isCreated = await POST("/user", {
       fullName,
       email,
@@ -36,7 +40,9 @@ export default function Create() {
     });
 
     if (isCreated.error) {
-      return toast.error(isCreated.error[0]);
+      return toast.error(
+        Array.isArray(isCreated.error) ? isCreated.error[0] : isCreated.error
+      );
     }
 
     toast.success("User created successfully");

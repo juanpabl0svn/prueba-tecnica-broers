@@ -17,16 +17,16 @@ export default function EditUser({
 
     const form = e.currentTarget;
 
-    const { fullName, email, password, active } = Object.fromEntries(
+    let { fullName, email, password, active } = Object.fromEntries(
       new FormData(form)
     );
 
-    if (
-      !(fullName as string).trim() ||
-      !(email as string).trim() ||
-      !(password as string).trim()
-    ) {
+    if (!(fullName as string).trim() || !(email as string).trim()) {
       return toast.error("Fill all the fields without spaces");
+    }
+
+    if (!(password as string).trim()) {
+      password = editUser.password;
     }
 
     const isUpdated = await PATCH(`/user/${editUser.id_user}`, {
@@ -102,8 +102,7 @@ export default function EditUser({
           type="password"
           name="password"
           className="rounded-md border border-black p-2"
-          placeholder="Password"
-          value={editUser.password}
+          placeholder="New password"
           onChange={(e) =>
             setEditUser({ ...editUser, password: e.target.value })
           }
