@@ -47,14 +47,26 @@ Cualquier contribución es bienvenida. Si deseas contribuir al proyecto, sigue e
 
 Este proyecto está licenciado bajo la [Licencia MIT](https://opensource.org/licenses/MIT).
 
+-------
+
 APP_DB_HOST=aws-0-us-west-1.pooler.supabase.com
+
 APP_DB_PORT=5432
+
 APP_DB_DATABASE=postgres
+
 APP_DB_USERNAME=postgres.rwzbkffduyxsblcqkhso
+
 APP_DB_PASSWORD=CvdRphkiItCORVqP
+
 TYPEORM_ENTITIES=**/*.entity.ts,src/**/*.entity.ts
+
 TYPEORM_SYNCHRONIZE=false
+
 TYPEORM_MIGRATIONS=dist/migrations/*.js
+
 TYPEORM_MIGRATIONS_DIR=src/migrations
+
 TYPEORM_LOGGING=true
+
 
