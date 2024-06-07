@@ -16,7 +16,7 @@ export default function Home() {
     const user = localStorage.getItem("user-crud");
 
     if (user) {
-      router("/create");
+      router("/dashboard");
     }
   });
 
@@ -38,16 +38,15 @@ export default function Home() {
 
     const user = await POST("/user/auth", { email, password });
 
-    console.log(user);
     if (user?.error) {
-      return toast.error("Usuario o contraseña incorrectos");
+      return toast.error(user.error);
     }
 
     localStorage.setItem("user-crud", user.token);
 
     toast.success("Inicio de sesión exitoso");
 
-    router("/create");
+    router("/dashboard");
   };
 
   return (

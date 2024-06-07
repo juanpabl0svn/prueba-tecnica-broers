@@ -8,27 +8,8 @@ import { POST } from "../utils/config";
 
 import toast from "react-hot-toast";
 
-export default function Dashboard() {
+export default function Create() {
   const [showPassword, setShowPassword] = useState(false);
-
-  const router = useNavigate();
-
-  useEffect(() => {
-    const user = localStorage.getItem("user-crud");
-
-    if (!user) {
-      router("/");
-    }
-
-    POST("/user/verify", { token: user })
-      .then((res) => {
-        if (res.error) {
-          localStorage.removeItem("user-crud");
-          return router("/");
-        }
-      })
-      .catch(() => {});
-  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -65,26 +46,11 @@ export default function Dashboard() {
 
   return (
     <>
-      <button
-        onClick={() => {
-          localStorage.removeItem("user-crud");
-          router("/");
-        }}
-        className="bg-gray-800 absolute right-5 top-5 rounded-md py-1 px-3 text-white opacity-80 hover:opacity-100"
-      >
-        Log Out
-      </button>
       <h1 className="absolute top-28 left-1/2 -translate-x-1/2 text-4xl text-white font-light ">
         Create
       </h1>
-      <button
-        className="absolute top-28 left-[60%] px-5 rounded-lg -translate-x-1/2 text-xl text-black font-light bg-white"
-        onClick={() => router("/edit")}
-      >
-        Edit
-      </button>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="w-[350px] h-[440px]">
         <h2 className="text-2xl mb-5">Create</h2>
         <div className="special-input">
           <input type="text" id="fullName" name="fullName" required />
@@ -121,7 +87,7 @@ export default function Dashboard() {
         <div className="flex justify-center gap-5">
           <div>
             <input type="radio" name="active" value="true" id="true" checked />
-            <label htmlFor="active">Activo</label>
+            <label htmlFor="true">Activo</label>
           </div>
           <div>
             <input type="radio" name="active" value="false" id="false" />

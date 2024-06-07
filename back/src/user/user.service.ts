@@ -47,6 +47,8 @@ export class UserService {
 
     const samePassword = bcrypt.compare(password, user.password)
 
+    if (!user.active) return { error: 'User is not active' }
+
     if (!samePassword) throw new NotFoundException('Username or password incorrect')
 
     const token = jwt.sign({ id_user: user.id_user }, 'secret', { expiresIn: '1h' })

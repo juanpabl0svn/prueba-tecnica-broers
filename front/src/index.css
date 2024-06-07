@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --background: linear-gradient(90deg, #1e3a8a 0%, #1e3a8a 50%, #1e3a8a 100%);
+  --background: linear-gradient(90deg, #1e3a8a 0%, #3253ae 50%, #3b64d5 100%);
 }
 
 main {
@@ -49,5 +49,35 @@ form {
   & > input:is(:focus, :valid) + label {
     top: 0;
     font-size: 12px;
+  }
+}
+
+.modal {
+  animation: show-modal 0.35s ease-in-out;
+}
+
+.hide-modal {
+  animation: hide-modal 0.35s ease-in-out;
+}
+
+@keyframes show-modal {
+  from {
+    transform: scale(0.6);
+    opacity: 0.6;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes hide-modal {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(0.6);
+    opacity: 0.6;
   }
 }
